@@ -21,3 +21,8 @@ $router->group(['prefix' => 'users'], function () use ($router) {
     $router->get('/{id}', 'UserController@show');
     $router->post('/store', 'UserController@store');
 });
+
+$router->group(['prefix' => 'api/v1'], function () use ($router) {
+    $router->post('login', 'Auth\LoginController@login');
+    $router->post('register', 'Auth\RegisterController@register');
+});
