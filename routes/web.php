@@ -12,14 +12,7 @@
 */
 
 $router->get('/', function () use ($router) {
-    // return $router->app->version();
-    return "Hello World";
-});
-
-$router->group(['prefix' => 'users'], function () use ($router) {
-    $router->get('/', 'UserController@index');
-    $router->get('/{id}', 'UserController@show');
-    $router->post('/store', 'UserController@store');
+    return view('index');
 });
 
 $router->group(['prefix' => 'api/v1'], function () use ($router) {
