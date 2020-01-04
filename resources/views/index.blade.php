@@ -22,7 +22,7 @@
     <!-- Styles -->
     <link href="css/app.css" rel="stylesheet">
 </head>
-<body id="page-top" class="text-sm">
+<body>
     <div id="app"></div>
 </body>
 </html>
