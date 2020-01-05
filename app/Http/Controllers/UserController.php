@@ -10,37 +10,39 @@ use Illuminate\Support\Facades\Validator;
 class UserController extends Controller
 {
     /**
+     * @var \App\Repositories\UserRepository
+     */
+    private $userRepository;
+
+    /**
      * Create a new controller instance.
      *
+     * @param \App\Repositories\UserRepository $userRepository
      * @return void
      */
-    public function __construct()
+    public function __construct(UserRepository $userRepository)
     {
-        //
+        $this->userRepository = $userRepository;
     }
 
     /**
      * Display a listing of users.
      * 
-     * @param  \App\Repositories\UserRepository     $userRepository
      * @return \Illuminate\Http\Response
      */
-    public function index(UserRepository $userRepository)
+    public function index()
     {
-        $users = $userRepository->all();
-
-        return response()->json($users);
+        return response()->json($this->userRepository->all());
     }
 
     /**
      * Display a specified user.
      * @param  uuid                                 $id
-     * @param  \App\Repositories\UserRepository     $userRepository
      * @return \Illuminate\Http\Response
      */
-    public function show($id, UserRepository $userRepository)
+    public function show($id)
     {
-        $user = $userRepository->single($id);
+        $user = $this->userRepository->single($id);
         if(!$user) {
             return response()->json(['error' => 'User not found'], 404);
         }
@@ -52,18 +54,18 @@ class UserController extends Controller
      * Store a newly created user
      *
      * @param  \Illuminate\Http\Request             $request
-     * @param  \App\Repositories\UserRepository     $userRepository
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, UserRepository $userRepository)
+    public function store(Request $request)
     {
         $this->validate($request, [
             'name' => 'required|string|min:10',
+            'display_name' => 'required|string|min:6|unique:users',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:8'
         ]);
         
-        $user = $userRepository->create($request);
+        $user = $this->userRepository->create($request);
 
         return response()->json($user);
     }

@@ -20,23 +20,29 @@ class RegisterController extends Controller
     */
 
     /**
+     * @var \App\Repositories\UserRepository
+     */
+    private $userRepository;
+
+    /**
      * Create a new controller instance.
      *
+     * @param \App\Repositories\UserRepository $userRepository
      * @return void
      */
-    public function __construct()
+    public function __construct(UserRepository $userRepository)
     {
-        
+        $this->middleware('guest');
+        $this->userRepository = $userRepository;
     }
 
     /**
      * Register a new user
      *
      * @param  \Illuminate\Http\Request             $request
-     * @param  \App\Repositories\UserRepository     $userRepository
      * @return \Illuminate\Http\Response
      */
-    public function register(Request $request, UserRepository $userRepository)
+    public function register(Request $request)
     {
         $this->validate($request, [
             'name' => 'required|string|min:10',
@@ -44,7 +50,7 @@ class RegisterController extends Controller
             'password' => 'required|min:8'
         ]);
         
-        $user = $userRepository->create($request);
+        $user = $this->userRepository->create($request);
 
         return response()->json($user);
     }

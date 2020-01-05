@@ -24,26 +24,22 @@ class UserRepository
      */
     public function single($id)
     {
-        $user = User::find($id);
-        // if(!$user) {
-        //     return response()->json(['error' => 'User not found'], 404);
-        // }
-        
-        return $user;
+        return User::findorFail($id);
     }
 
     /**
      * Saves the resource in the database
      * 
-     * @param Object        $userData
+     * @param Object        $request
      * @return App\User
      */
-    public function create($userData)
+    public function create($request)
     {
         $user = new User();
-        $user->name = $userData->name;
-        $user->email = $userData->email;
-        $user->password = Hash::make($userData->password);
+        $user->name = $request->name;
+        $user->display_name = $request->display_name;
+        $user->email = $request->email;
+        $user->password = Hash::make($request->password);
         $user->save();
 
         return $user;
