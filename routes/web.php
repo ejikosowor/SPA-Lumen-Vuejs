@@ -18,4 +18,6 @@ $router->get('/', function () use ($router) {
 $router->group(['prefix' => 'api/v1'], function () use ($router) {
     $router->post('login', 'Auth\LoginController@login');
     $router->post('register', 'Auth\RegisterController@register');
+
+    $router->get('profile', 'ProfileController@index');
 });

@@ -32,7 +32,6 @@ class RegisterController extends Controller
      */
     public function __construct(UserRepository $userRepository)
     {
-        $this->middleware('guest');
         $this->userRepository = $userRepository;
     }
 
@@ -46,12 +45,13 @@ class RegisterController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|string|min:10',
+            'display_name' => 'required|string|min:6|unique:users',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:8'
         ]);
         
         $user = $this->userRepository->create($request);
 
-        return response()->json($user);
+        return response()->json(["msg" => "Account Successfully Created"]);
     }
 }
