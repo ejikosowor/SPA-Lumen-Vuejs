@@ -52,6 +52,6 @@ class RegisterController extends Controller
         
         $user = $this->userRepository->create($request);
 
-        return response()->json(["msg" => "Account Successfully Created"]);
+        return response()->json(['status' => "Account Successfully Created"]);
     }
 }
