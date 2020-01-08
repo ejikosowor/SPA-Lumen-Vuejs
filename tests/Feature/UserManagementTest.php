@@ -27,10 +27,10 @@ class UserManagementTest extends TestCase
     }
 
     /**
-     * Test User Name Validation
+     * Test Name Validation
      * 
      * @return void
-     *  */
+     */
     public function testUserHasInvalidName()
     {
         $response = $this->call('POST', 'api/v1/register', array_merge($this->data(), ['name' => '']));
@@ -40,6 +40,47 @@ class UserManagementTest extends TestCase
         $this->assertArrayHasKey('name', $response->getData(true));
     }
 
+    /**
+     * Test Display Name Validation
+     * 
+     * @return void
+     */
+    public function testUserHasInvalidDisplayName()
+    {
+        $response = $this->call('POST', 'api/v1/register', array_merge($this->data(), ['display_name' => '']));
+
+        $this->assertCount(0, User::all());
+        $this->assertEquals(422, $response->status());
+        $this->assertArrayHasKey('display_name', $response->getData(true));
+    }
+
+    /**
+     * Test Email Validation
+     * 
+     * @return void
+     */
+    public function testUserHasInvalidEmail()
+    {
+        $response = $this->call('POST', 'api/v1/register', array_merge($this->data(), ['email' => '']));
+
+        $this->assertCount(0, User::all());
+        $this->assertEquals(422, $response->status());
+        $this->assertArrayHasKey('email', $response->getData(true));
+    }
+
+    /**
+     * Test Password Validation
+     * 
+     * @return void
+     */
+    public function testUserHasInvalidPassword()
+    {
+        $response = $this->call('POST', 'api/v1/register', array_merge($this->data(), ['password' => '']));
+
+        $this->assertCount(0, User::all());
+        $this->assertEquals(422, $response->status());
+        $this->assertArrayHasKey('password', $response->getData(true));
+    }
 
     private function data()
     {
