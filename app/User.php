@@ -51,4 +51,12 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     {
         return [];
     }
+
+    /**
+     * Get all Todos associated with User
+     */
+    public function todos()
+    {
+        return $this->hasMany('App\Todo');
+    }
 }

@@ -21,3 +21,9 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'password' => Hash::make("123456789")
     ];
 });
+
+$factory->define(App\Todo::class, function (Faker\Generator $faker) {
+    return [
+        'body' => $faker->sentence(6, true),
+    ];
+});
