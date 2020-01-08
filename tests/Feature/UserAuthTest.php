@@ -16,7 +16,7 @@ class UserAuthTest extends TestCase
      * 
      * @return void
      */
-    public function testUserCanBeCreated()
+    public function testUserCanBeAuthenticated()
     {
         $user = factory('App\User')->create();
 
@@ -25,5 +25,30 @@ class UserAuthTest extends TestCase
         
         $this->assertResponseOk();
         $this->assertCount(1, User::all());
+    }
+
+    /**
+     * Guest Access Test
+     * 
+     * @return void
+     */
+    public function testGuestCanAccessUnProtectedRoutes()
+    {
+        $this->get('/');
+
+        $this->assertResponseOk();
+        $this->seeHeader("Content-Type", "text/html; charset=UTF-8");
+    }
+
+    /**
+     * Guest Access test
+     * 
+     * @return void
+     */
+    public function testGuestCantAccessProtectedRoutes()
+    {
+        $this->get('api/v1/profile');
+
+        $this->assertResponseStatus(401);
     }
 }

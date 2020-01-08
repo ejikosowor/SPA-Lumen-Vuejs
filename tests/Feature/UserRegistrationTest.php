@@ -35,8 +35,7 @@ class UserRegistrationTest extends TestCase
     {
         $response = $this->call('POST', 'api/v1/register', array_merge($this->data(), ['name' => '']));
 
-        $this->assertResponseStatus(422);
-        $this->assertCount(0, User::all());
+        $this->validate();
         $this->assertArrayHasKey('name', $response->getData(true));
     }
 
@@ -49,8 +48,7 @@ class UserRegistrationTest extends TestCase
     {
         $response = $this->call('POST', 'api/v1/register', array_merge($this->data(), ['display_name' => '']));
 
-        $this->assertResponseStatus(422);
-        $this->assertCount(0, User::all());
+        $this->validate();        
         $this->assertArrayHasKey('display_name', $response->getData(true));
     }
 
@@ -63,8 +61,7 @@ class UserRegistrationTest extends TestCase
     {
         $response = $this->call('POST', 'api/v1/register', array_merge($this->data(), ['email' => '']));
 
-        $this->assertResponseStatus(422);
-        $this->assertCount(0, User::all());
+        $this->validate();
         $this->assertArrayHasKey('email', $response->getData(true));
     }
 
@@ -77,9 +74,16 @@ class UserRegistrationTest extends TestCase
     {
         $response = $this->call('POST', 'api/v1/register', array_merge($this->data(), ['password' => '']));
 
+        $this->validate();
+        $this->assertArrayHasKey('password', $response->getData(true));
+    }
+
+    private function validate()
+    {
         $this->assertResponseStatus(422);
         $this->assertCount(0, User::all());
-        $this->assertArrayHasKey('password', $response->getData(true));
+
+        return;
     }
 
     private function data()
