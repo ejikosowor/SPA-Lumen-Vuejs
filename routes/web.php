@@ -21,4 +21,6 @@ $router->group(['prefix' => 'api/v1'], function () use ($router) {
     $router->post('register', 'Auth\RegisterController@register');
 
     $router->get('profile', 'ProfileController@index');
+
+    $router->post('todo', 'TodoController@store');
 });
