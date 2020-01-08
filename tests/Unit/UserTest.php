@@ -19,12 +19,7 @@ class UserTest extends TestCase
      */
     public function testUserCanBeCreatedFromValidData()
     {
-        User::firstOrCreate([
-            'name' => $this->faker->name,
-            'display_name' => "test001",
-            'email' => $this->faker->unique()->safeEmail,
-            'password' => Hash::make("904310813")
-        ]);
+        $user = factory('App\User')->create();
 
         $this->assertCount(1, User::all());
     }
