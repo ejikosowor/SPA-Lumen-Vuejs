@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Laravel\Lumen\Testing\DatabaseTransactions;
 
-class UserManagementTest extends TestCase
+class UserRegistrationTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -21,8 +21,8 @@ class UserManagementTest extends TestCase
     {
         $response = $this->call('POST', 'api/v1/register', $this->data());
         
+        $this->assertResponseOk();
         $this->assertCount(1, User::all());
-        $this->assertEquals(200, $response->status());
         $this->assertArrayHasKey('status', $response->getData(true));
     }
 
@@ -35,8 +35,8 @@ class UserManagementTest extends TestCase
     {
         $response = $this->call('POST', 'api/v1/register', array_merge($this->data(), ['name' => '']));
 
+        $this->assertResponseStatus(422);
         $this->assertCount(0, User::all());
-        $this->assertEquals(422, $response->status());
         $this->assertArrayHasKey('name', $response->getData(true));
     }
 
@@ -49,8 +49,8 @@ class UserManagementTest extends TestCase
     {
         $response = $this->call('POST', 'api/v1/register', array_merge($this->data(), ['display_name' => '']));
 
+        $this->assertResponseStatus(422);
         $this->assertCount(0, User::all());
-        $this->assertEquals(422, $response->status());
         $this->assertArrayHasKey('display_name', $response->getData(true));
     }
 
@@ -63,8 +63,8 @@ class UserManagementTest extends TestCase
     {
         $response = $this->call('POST', 'api/v1/register', array_merge($this->data(), ['email' => '']));
 
+        $this->assertResponseStatus(422);
         $this->assertCount(0, User::all());
-        $this->assertEquals(422, $response->status());
         $this->assertArrayHasKey('email', $response->getData(true));
     }
 
@@ -77,8 +77,8 @@ class UserManagementTest extends TestCase
     {
         $response = $this->call('POST', 'api/v1/register', array_merge($this->data(), ['password' => '']));
 
+        $this->assertResponseStatus(422);
         $this->assertCount(0, User::all());
-        $this->assertEquals(422, $response->status());
         $this->assertArrayHasKey('password', $response->getData(true));
     }
 
