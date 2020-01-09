@@ -22,10 +22,9 @@ class TodoTest extends TestCase
     {
         $user = factory(User::class)->create();
 
-        $todo = Todo::firstOrCreate([
-                    'body' => $this->faker->sentence(6, true),
-                    'user_id' => $user->id
-                ]);
+        factory(Todo::class)->create([
+            'user_id' => $user->id
+        ]);
 
         $this->assertCount(1, Todo::all());
     }

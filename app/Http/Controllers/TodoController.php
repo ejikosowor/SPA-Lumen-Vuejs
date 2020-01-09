@@ -21,6 +21,16 @@ class TodoController extends Controller
     }
 
     /**
+     * Display a listing of all Todos.
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        return Auth::user()->todos;
+    }
+
+    /**
      * Store a newly created Todo
      *
      * @param  \Illuminate\Http\Request             $request

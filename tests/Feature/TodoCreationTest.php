@@ -30,7 +30,7 @@ class TodoCreationTest extends TestCase
     }
 
     /**
-     * Test User must be authenticated to add TOdo
+     * Test User must be authenticated to add Todo
      * 
      * @return void
      */

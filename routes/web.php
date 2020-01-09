@@ -22,5 +22,6 @@ $router->group(['prefix' => 'api/v1'], function () use ($router) {
 
     $router->get('profile', 'ProfileController@index');
 
+    $router->get('todo', 'TodoController@index');
     $router->post('todo', 'TodoController@store');
 });
