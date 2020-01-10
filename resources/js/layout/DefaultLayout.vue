@@ -3,21 +3,19 @@
         <navbar></navbar>
 
         <main class="py-4">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <router-view></router-view>
-                </div>
-            </div>
+            <pagecontent></pagecontent>
         </main>
     </div>
 </template>
 
 <script>
     import navbar from './partials/Navbar.vue';
+    import pagecontent from './partials/Content.vue'
 
     export default {
         components: {
-            navbar
+            navbar,
+            pagecontent
         }
     }
 </script>
