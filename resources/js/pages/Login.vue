@@ -4,7 +4,7 @@
             <div class="card-body py-0">
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="px-4 py-3">
+                        <div class="p-2">
                             <form method="POST" action="#">
                                 <div class="form-group">
                                     <label for="email" class="mb-0">E-Mail Address</label>

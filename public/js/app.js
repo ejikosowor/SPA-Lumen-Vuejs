@@ -38414,7 +38414,7 @@ var staticRenderFns = [
         _c("div", { staticClass: "card-body py-0" }, [
           _c("div", { staticClass: "row" }, [
             _c("div", { staticClass: "col-md-12" }, [
-              _c("div", { staticClass: "px-4 py-3" }, [
+              _c("div", { staticClass: "p-2" }, [
                 _c("form", { attrs: { method: "POST", action: "#" } }, [
                   _c("div", { staticClass: "form-group" }, [
                     _c(
@@ -38537,7 +38537,7 @@ var staticRenderFns = [
         _c("div", { staticClass: "card-body py-0" }, [
           _c("div", { staticClass: "row" }, [
             _c("div", { staticClass: "col-md-12" }, [
-              _c("div", { staticClass: "px-4 py-3" }, [
+              _c("div", { staticClass: "p-2" }, [
                 _c("form", { attrs: { method: "POST", action: "#" } }, [
                   _c("div", { staticClass: "form-group" }, [
                     _c(
