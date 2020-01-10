@@ -21,7 +21,7 @@
                         </a>
 
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                            <router-link to="/auth" class="dropdown-item">Logout</router-link>
+                            <router-link :to="{ name: 'login' }" class="dropdown-item">Logout</router-link>
                         </div>
                     </li>
                 </ul>

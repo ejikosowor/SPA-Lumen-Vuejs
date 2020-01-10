@@ -4,6 +4,7 @@ import AuthLayout from './layout/AuthLayout.vue';
 //Pages
 import Home from './pages/Home.vue';
 import Login from './pages/Login.vue';
+import Register from './pages/Register.vue';
 
 const routes = [
     {
@@ -19,12 +20,16 @@ const routes = [
     {
         path: '/auth',
         component: AuthLayout,
-        redirect: { name: 'Login' },
         children: [
             {
-                path: '/',
-                name: 'Login',
+                path: '/login',
+                name: 'login',
                 component: Login
+            },
+            {
+                path: '/register',
+                name: 'register',
+                component: Register
             }
         ]
     }
