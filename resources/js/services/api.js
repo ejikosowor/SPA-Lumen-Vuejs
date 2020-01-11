@@ -1,4 +1,4 @@
-import { TokenService } from "./storage.service";
+import { TokenService } from "./storage";
 
 const ApiService = {
 
