@@ -9,7 +9,10 @@ const pageRoutes = {
     children: [
         {
             path: '/',
-            component: Home
+            component: Home,
+            meta: {
+                auth: true,
+            }
         }
     ]
 };

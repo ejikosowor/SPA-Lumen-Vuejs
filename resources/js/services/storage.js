@@ -15,7 +15,7 @@ const TOKEN_KEY = 'access_token';
     },
     //Save access token to localStorage
     saveToken() {
-        return localStorage.setItem(TOKEN_KEY);
+        localStorage.setItem(TOKEN_KEY, accessToken);
     },
     //Clear access token from localStorage
     removeToken() {
@@ -23,4 +23,4 @@ const TOKEN_KEY = 'access_token';
     }
  };
 
- export { TokenService };
+ export default TokenService;

@@ -54392,11 +54392,17 @@ var authRoutes = {
   children: [{
     path: '/login',
     name: 'login',
-    component: _pages_Login_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+    component: _pages_Login_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
+    meta: {
+      guest: true
+    }
   }, {
     path: '/register',
     name: 'register',
-    component: _pages_Register_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
+    component: _pages_Register_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
+    meta: {
+      guest: true
+    }
   }]
 };
 
@@ -54415,8 +54421,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
-/* harmony import */ var _auth__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./auth */ "./resources/js/routes/auth.js");
-/* harmony import */ var _pages__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./pages */ "./resources/js/routes/pages.js");
+/* harmony import */ var _services_storage__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../services/storage */ "./resources/js/services/storage.js");
+/* harmony import */ var _auth__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./auth */ "./resources/js/routes/auth.js");
+/* harmony import */ var _pages__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./pages */ "./resources/js/routes/pages.js");
+
 
  //Individual routing files
 
@@ -54426,7 +54434,32 @@ __webpack_require__.r(__webpack_exports__);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]); // Configure VueRouter
 
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
-  routes: [_pages__WEBPACK_IMPORTED_MODULE_3__["pageRoutes"], _auth__WEBPACK_IMPORTED_MODULE_2__["authRoutes"]]
+  routes: [_pages__WEBPACK_IMPORTED_MODULE_4__["pageRoutes"], _auth__WEBPACK_IMPORTED_MODULE_3__["authRoutes"]]
+});
+router.beforeEach(function (to, from, next) {
+  var isAuth = to.matched.some(function (record) {
+    return record.meta.auth;
+  });
+  var isGuest = to.matched.some(function (record) {
+    return record.meta.guest;
+  });
+  var loggedIn = _services_storage__WEBPACK_IMPORTED_MODULE_2__["default"].getToken();
+  console.log(from.name);
+
+  if (isAuth && !loggedIn) {
+    return next({
+      name: 'login',
+      query: {
+        redirect: to.name
+      }
+    });
+  }
+
+  if (isGuest && loggedIn) {
+    return next('/');
+  }
+
+  next();
 });
 /* harmony default export */ __webpack_exports__["default"] = (router);
 
@@ -54452,10 +54485,48 @@ var pageRoutes = {
   component: _layout_DefaultLayout_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
   children: [{
     path: '/',
-    component: _pages_Home_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+    component: _pages_Home_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
+    meta: {
+      auth: true
+    }
   }]
 };
 
+
+/***/ }),
+
+/***/ "./resources/js/services/storage.js":
+/*!******************************************!*\
+  !*** ./resources/js/services/storage.js ***!
+  \******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+var TOKEN_KEY = 'access_token';
+/**
+ * Manage storage and retrieval of access tokens from storage
+ *
+ * @returns localStorage
+ * Local Storage should always be accessed through this instance
+ */
+
+var TokenService = {
+  //Retrieve access token from localStorage
+  getToken: function getToken() {
+    return localStorage.getItem(TOKEN_KEY);
+  },
+  //Save access token to localStorage
+  saveToken: function saveToken() {
+    localStorage.setItem(TOKEN_KEY, accessToken);
+  },
+  //Clear access token from localStorage
+  removeToken: function removeToken() {
+    return localStorage.removeItem(TOKEN_KEY);
+  }
+};
+/* harmony default export */ __webpack_exports__["default"] = (TokenService);
 
 /***/ }),
 
