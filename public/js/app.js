@@ -54434,6 +54434,7 @@ __webpack_require__.r(__webpack_exports__);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]); // Configure VueRouter
 
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
+  mode: 'history',
   routes: [_pages__WEBPACK_IMPORTED_MODULE_4__["pageRoutes"], _auth__WEBPACK_IMPORTED_MODULE_3__["authRoutes"]]
 });
 router.beforeEach(function (to, from, next) {
@@ -54444,7 +54445,6 @@ router.beforeEach(function (to, from, next) {
     return record.meta.guest;
   });
   var loggedIn = _services_storage__WEBPACK_IMPORTED_MODULE_2__["default"].getToken();
-  console.log(from.name);
 
   if (isAuth && !loggedIn) {
     return next({

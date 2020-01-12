@@ -12,15 +12,16 @@
 */
 
 $router->get('/', function () use ($router) {
-    // return $router->app->version();
+    return view('index');
+});
+
+$router->get('/{any}', function () use ($router) {
     return view('index');
 });
 
 $router->group(['prefix' => 'api/v1'], function () use ($router) {
     $router->post('login', 'Auth\LoginController@login');
     $router->post('register', 'Auth\RegisterController@register');
-
-    $router->get('profile', 'ProfileController@index');
 
     $router->get('todo', 'TodoController@index');
     $router->post('todo', 'TodoController@store');

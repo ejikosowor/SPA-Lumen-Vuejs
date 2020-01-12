@@ -12,6 +12,7 @@ Vue.use(VueRouter);
 
 // Configure VueRouter
 const router = new VueRouter({
+    mode: 'history',
     routes: [
         pageRoutes,
         authRoutes
