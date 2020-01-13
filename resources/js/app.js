@@ -9,11 +9,13 @@ require('./bootstrap');
 import Vue from 'vue'
 import App from './layout/App.vue';
 
-// Router Setup
-import router from './routes/index';
+// Vuex and VueRouter imports
+import store from './store';
+import router from './routes';
 
 new Vue({
     el: '#app',
     render: h => h(App),
-    router
+    router,
+    store
 });

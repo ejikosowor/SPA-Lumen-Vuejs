@@ -30,14 +30,4 @@
         height: calc(100vh - 1rem);
         content: "";
     }
-
-    @media (min-width: 576px) {
-        .modal-dialog-centered {
-            min-height: calc(100% - 3.5rem);
-        }
-
-        .modal-dialog-centered::before {
-            height: calc(100vh - 3.5rem);
-        }
-    }
 </style>
