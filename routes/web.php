@@ -11,13 +11,9 @@
 |
 */
 
-$router->get('/', function () use ($router) {
-    return view('index');
-});
+$router->get('/', 'SpaController@index');
 
-$router->get('/{any}', function () use ($router) {
-    return view('index');
-});
+$router->get('/{any}', 'SpaController@index');
 
 $router->group(['prefix' => 'api/v1'], function () use ($router) {
     $router->post('login', 'Auth\LoginController@login');

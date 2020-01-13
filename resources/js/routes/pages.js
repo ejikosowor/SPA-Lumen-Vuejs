@@ -10,6 +10,7 @@ const pageRoutes = {
         {
             path: '/',
             component: Home,
+            name: 'home',
             meta: {
                 auth: true,
             }

@@ -6,6 +6,7 @@ import TokenService from '../services/storage';
 //Individual routing files
 import { authRoutes } from './auth';
 import { pageRoutes } from './pages';
+import { NotFound } from './NotFound';
 
 // Plugin Setup
 Vue.use(VueRouter);
@@ -15,7 +16,8 @@ const router = new VueRouter({
     mode: 'history',
     routes: [
         pageRoutes,
-        authRoutes
+        authRoutes,
+        NotFound
     ]
 });
 
