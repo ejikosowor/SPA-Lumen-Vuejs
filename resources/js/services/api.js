@@ -1,10 +1,10 @@
-import { TokenService } from "./storage";
+import StorageService from "./storage";
 
 const ApiService = {
 
     //Set authorization header
     setHeader() {
-        axios.defaults.headers.common["Authorization"] = `Bearer ${TokenService.getToken()}`;
+        axios.defaults.headers.common["Authorization"] = `Bearer ${StorageService.getToken()}`;
     },
     //Remove authorization header
     removeHeader() {

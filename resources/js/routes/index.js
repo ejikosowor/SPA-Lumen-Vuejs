@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router';
 
-import TokenService from '../services/storage';
+import StorageService from '../services/storage';
 
 //Individual routing files
 import { authRoutes } from './auth';
@@ -24,16 +24,16 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
     const isAuth = to.matched.some(record => record.meta.auth);
     const isGuest = to.matched.some(record => record.meta.guest);
-    const loggedIn = TokenService.getToken();
+    const Authenticated = StorageService.getToken();
 
-    if(isAuth && !loggedIn) {
+    if(isAuth && !Authenticated) {
         return next({
             name: 'login',
             query: { redirect: to.name }
         });
     }
 
-    if(isGuest && loggedIn) {
+    if(isGuest && Authenticated) {
         return next('/');
     }
 

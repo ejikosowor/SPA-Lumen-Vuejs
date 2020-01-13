@@ -5,15 +5,15 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="p-2">
-                            <form method="POST" action="#">
+                            <form method="POST" @submit="onSubmit">
                                 <div class="form-group">
                                     <label for="email" class="mb-0">E-Mail Address</label>
-                                    <input id="email" type="email" class="form-control mt-0" name="email" required autocomplete="email" autofocus>
+                                    <input id="email" type="email" class="form-control mt-0" name="email" v-model="email" required autocomplete="email" autofocus>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="password" class="mb-0">Password</label>
-                                    <input id="password" type="password" class="form-control mt-0" name="password" required autocomplete="current-password">
+                                    <input id="password" type="password" class="form-control mt-0" name="password" v-model="password" required autocomplete="current-password">
                                 </div>
 
                                 <div class="form-group">
@@ -41,7 +41,22 @@
 </template>
 
 <script>
-    export default {
 
+import { mapGetters, mapActions } from "vuex";
+
+    export default {
+        data() {
+            return {
+                email: "",
+                password: ""
+            }
+        },
+        methods: {
+            ...mapActions('auth', ['login']),
+            onSubmit(event) {
+                event.preventDefault();
+                this.login({ email: this.email, password: this.password });
+            }
+        }
     }
 </script>

@@ -37,7 +37,7 @@ class LoginController extends Controller
     public function login(Request $request)
     {        
         if(!$token = Auth::attempt($this->credentials($request))) {
-            return response()->json(['error' => 'Invalid Credentials'], 401);
+            return response()->json(['error' => 'Invalid Credentials'], 422);
         }
 
         return $this->respondWithToken($token);
