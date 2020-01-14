@@ -4,17 +4,17 @@ import ApiService from '../../services/api';
 import StorageService from '../../services/storage';
 
 const state = {
+    error: '',
     status: '',
     user: StorageService.getUser() || '',
-    token: StorageService.getToken() || '',
-    error: ''
+    token: StorageService.getToken() || ''
 };
 
 const getters = {
-    authenticated: state => !!state.token,
-    authStatus: state => state.status,
     authUser: state => state.user,
-    authError: state => state.error
+    authError: state => state.error,
+    authStatus: state => state.status,
+    authenticated: state => !!state.token
 };
 
 const actions = {
@@ -26,13 +26,18 @@ const actions = {
                         .then(response => {
                             StorageService.saveUser(response.data.user);
                             StorageService.saveToken(response.data.token);
-                            ApiService.setHeader();
                             commit('auth_success', response.data);
                             router.push(router.history.current.query.redirect || '/');
                         })
                         .catch(error => {
                             commit('auth_error', error.response.data);
                         });
+    },
+    logout({ commit }) {
+        StorageService.removeUser();
+        StorageService.removeToken();
+        commit('auth_logout');
+        router.push('/login');
     }
 };
 
@@ -49,6 +54,12 @@ const mutations = {
     auth_error: (state, data) => {
         state.status = 'Failed';
         state.error = data.error;
+    },
+    auth_logout: (state) => {
+        state.status = 'Logout';
+        state.token = '';
+        state.user = '';
+        state.error = '';
     }
 }
 

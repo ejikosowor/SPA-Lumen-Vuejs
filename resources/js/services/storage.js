@@ -32,7 +32,7 @@ const StorageService = {
     },
     // Clear auth user from localStorage
     removeUser() {
-        return localStorage.getItem(USER_KEY);
+        return localStorage.removeItem(USER_KEY);
     }
 };
 

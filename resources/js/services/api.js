@@ -8,7 +8,7 @@ const ApiService = {
     },
     //Remove authorization header
     removeHeader() {
-        axios.defaults.headers.common = {}
+        delete axios.defaults.headers.common["Authorization"];
     },
     //Make a GET request
     get(resource) {

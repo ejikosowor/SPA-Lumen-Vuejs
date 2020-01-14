@@ -2041,6 +2041,13 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -2073,7 +2080,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ __webpack_exports__["default"] = ({});
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])('auth', ['logout']))
+});
 
 /***/ }),
 
@@ -39109,49 +39119,56 @@ var render = function() {
     "nav",
     { staticClass: "navbar navbar-expand-md navbar-light bg-white shadow-sm" },
     [
-      _c("div", { staticClass: "container" }, [
-        _c("a", { staticClass: "navbar-brand", attrs: { href: "#/" } }, [
-          _vm._v("Home")
-        ]),
-        _vm._v(" "),
-        _vm._m(0),
-        _vm._v(" "),
-        _c(
-          "div",
-          {
-            staticClass: "collapse navbar-collapse",
-            attrs: { id: "navbarSupportedContent" }
-          },
-          [
-            _c("ul", { staticClass: "navbar-nav mr-auto" }),
-            _vm._v(" "),
-            _c("ul", { staticClass: "navbar-nav ml-auto" }, [
-              _c("li", { staticClass: "nav-item dropdown" }, [
-                _vm._m(1),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  {
-                    staticClass: "dropdown-menu dropdown-menu-right",
-                    attrs: { "aria-labelledby": "navbarDropdown" }
-                  },
-                  [
-                    _c(
-                      "router-link",
-                      {
-                        staticClass: "dropdown-item",
-                        attrs: { to: { name: "login" } }
-                      },
-                      [_vm._v("Logout")]
-                    )
-                  ],
-                  1
-                )
+      _c(
+        "div",
+        { staticClass: "container" },
+        [
+          _c(
+            "router-link",
+            { staticClass: "navbar-brand", attrs: { to: "/" } },
+            [_vm._v("Home")]
+          ),
+          _vm._v(" "),
+          _vm._m(0),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass: "collapse navbar-collapse",
+              attrs: { id: "navbarSupportedContent" }
+            },
+            [
+              _c("ul", { staticClass: "navbar-nav mr-auto" }),
+              _vm._v(" "),
+              _c("ul", { staticClass: "navbar-nav ml-auto" }, [
+                _c("li", { staticClass: "nav-item dropdown" }, [
+                  _vm._m(1),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      staticClass: "dropdown-menu dropdown-menu-right",
+                      attrs: { "aria-labelledby": "navbarDropdown" }
+                    },
+                    [
+                      _c(
+                        "a",
+                        {
+                          staticClass: "dropdown-item",
+                          attrs: { href: "" },
+                          on: { click: _vm.logout }
+                        },
+                        [_vm._v("Logout")]
+                      )
+                    ]
+                  )
+                ])
               ])
-            ])
-          ]
-        )
-      ])
+            ]
+          )
+        ],
+        1
+      )
     ]
   )
 }
@@ -39187,7 +39204,7 @@ var staticRenderFns = [
         attrs: {
           id: "navbarDropdown",
           class: "nav-link dropdown-toggle",
-          href: "#/",
+          href: "",
           role: "button",
           "data-toggle": "dropdown",
           "aria-haspopup": "true",
@@ -56668,7 +56685,7 @@ var ApiService = {
   },
   //Remove authorization header
   removeHeader: function removeHeader() {
-    axios.defaults.headers.common = {};
+    delete axios.defaults.headers.common["Authorization"];
   },
   //Make a GET request
   get: function get(resource) {
@@ -56739,7 +56756,7 @@ var StorageService = {
   },
   // Clear auth user from localStorage
   removeUser: function removeUser() {
-    return localStorage.getItem(USER_KEY);
+    return localStorage.removeItem(USER_KEY);
   }
 };
 /* harmony default export */ __webpack_exports__["default"] = (StorageService);
@@ -56799,23 +56816,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 var state = {
+  error: '',
   status: '',
   user: _services_storage__WEBPACK_IMPORTED_MODULE_3__["default"].getUser() || '',
-  token: _services_storage__WEBPACK_IMPORTED_MODULE_3__["default"].getToken() || '',
-  error: ''
+  token: _services_storage__WEBPACK_IMPORTED_MODULE_3__["default"].getToken() || ''
 };
 var getters = {
-  authenticated: function authenticated(state) {
-    return !!state.token;
-  },
-  authStatus: function authStatus(state) {
-    return state.status;
-  },
   authUser: function authUser(state) {
     return state.user;
   },
   authError: function authError(state) {
     return state.error;
+  },
+  authStatus: function authStatus(state) {
+    return state.status;
+  },
+  authenticated: function authenticated(state) {
+    return !!state.token;
   }
 };
 var actions = {
@@ -56842,7 +56859,6 @@ var actions = {
               }).then(function (response) {
                 _services_storage__WEBPACK_IMPORTED_MODULE_3__["default"].saveUser(response.data.user);
                 _services_storage__WEBPACK_IMPORTED_MODULE_3__["default"].saveToken(response.data.token);
-                _services_api__WEBPACK_IMPORTED_MODULE_2__["default"].setHeader();
                 commit('auth_success', response.data);
                 _routes__WEBPACK_IMPORTED_MODULE_1__["default"].push(_routes__WEBPACK_IMPORTED_MODULE_1__["default"].history.current.query.redirect || '/');
               })["catch"](function (error) {
@@ -56862,7 +56878,14 @@ var actions = {
     }
 
     return login;
-  }()
+  }(),
+  logout: function logout(_ref3) {
+    var commit = _ref3.commit;
+    _services_storage__WEBPACK_IMPORTED_MODULE_3__["default"].removeUser();
+    _services_storage__WEBPACK_IMPORTED_MODULE_3__["default"].removeToken();
+    commit('auth_logout');
+    _routes__WEBPACK_IMPORTED_MODULE_1__["default"].push('/login');
+  }
 };
 var mutations = {
   auth_request: function auth_request(state) {
@@ -56872,10 +56895,17 @@ var mutations = {
     state.status = 'Authenticated';
     state.token = data.token;
     state.user = data.user;
+    state.error = '';
   },
   auth_error: function auth_error(state, data) {
     state.status = 'Failed';
     state.error = data.error;
+  },
+  auth_logout: function auth_logout(state) {
+    state.status = 'Logout';
+    state.token = '';
+    state.user = '';
+    state.error = '';
   }
 };
 /* harmony default export */ __webpack_exports__["default"] = ({
