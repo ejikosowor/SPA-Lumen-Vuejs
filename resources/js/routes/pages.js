@@ -1,7 +1,7 @@
 import DefaultLayout from '../layout/DefaultLayout.vue';
 
-//Pages
-import Home from '../pages/Home.vue';
+//Views
+import Home from '../views/Home.vue';
 
 const pageRoutes = {
     path: '/',

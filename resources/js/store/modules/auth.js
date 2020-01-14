@@ -1,6 +1,6 @@
 import router from '../../routes';
 
-import ApiService from '../../services/api';
+import UserService from '../../services/user';
 import StorageService from '../../services/storage';
 
 const state = {
@@ -22,20 +22,18 @@ const actions = {
 
         commit('auth_request')
 
-        await ApiService.customRequest({url: 'api/v1/login', data: {email, password}, method: 'POST'})
-                        .then(response => {
-                            StorageService.saveUser(response.data.user);
-                            StorageService.saveToken(response.data.token);
-                            commit('auth_success', response.data);
-                            router.push(router.history.current.query.redirect || '/');
-                        })
-                        .catch(error => {
-                            commit('auth_error', error.response.data);
-                        });
+        await UserService
+                    .login(email, password)
+                    .then(response => {
+                        commit('auth_success', response.data);
+                        router.push(router.history.current.query.redirect || '/');
+                    })
+                    .catch(error => {
+                        commit('auth_error', error.response.data);
+                    });
     },
     logout({ commit }) {
-        StorageService.removeUser();
-        StorageService.removeToken();
+        UserService.logout();
         commit('auth_logout');
         router.push('/login');
     }

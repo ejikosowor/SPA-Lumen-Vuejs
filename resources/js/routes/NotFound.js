@@ -1,8 +1,8 @@
-import NotFoundPage from '../pages/NotFound.vue';
+import NotFoundView from '../views/NotFound.vue';
 
 const NotFound = {
     path: '*',
-    component: NotFoundPage,
+    component: NotFoundView,
 };
 
 export { NotFound };

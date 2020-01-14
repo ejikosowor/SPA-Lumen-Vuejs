@@ -1,8 +1,8 @@
 import AuthLayout from '../layout/AuthLayout.vue';
 
-//Pages
-import Login from '../pages/Login.vue';
-import Register from '../pages/Register.vue';
+//Views
+import Login from '../views/Login.vue';
+import Register from '../views/Register.vue';
 
 const authRoutes = {
     path: '/auth',
