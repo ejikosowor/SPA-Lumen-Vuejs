@@ -8,7 +8,10 @@
                             <form method="POST" @submit="onSubmit">
                                 <div class="form-group">
                                     <label for="email" class="mb-0">E-Mail Address</label>
-                                    <input id="email" type="email" class="form-control mt-0" name="email" v-model="email" required autocomplete="email" autofocus>
+                                    <input id="email" type="email" class="form-control mt-0" name="email" v-bind:class="{ 'is-invalid' : authError }" v-model="email" required autocomplete="email" autofocus>
+                                    <span class="invalid-feedback" role="alert" v-if="authError">
+                                        <strong>{{ authError }}</strong>
+                                    </span>
                                 </div>
 
                                 <div class="form-group">
@@ -41,8 +44,7 @@
 </template>
 
 <script>
-
-import { mapGetters, mapActions } from "vuex";
+    import { mapGetters, mapActions } from "vuex";
 
     export default {
         data() {
@@ -50,6 +52,11 @@ import { mapGetters, mapActions } from "vuex";
                 email: "",
                 password: ""
             }
+        },
+        computed: {
+            ...mapGetters('auth', [
+                'authError'
+            ])
         },
         methods: {
             ...mapActions('auth', ['login']),

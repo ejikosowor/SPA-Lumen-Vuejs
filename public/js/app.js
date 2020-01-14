@@ -2160,6 +2160,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2168,6 +2171,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       password: ""
     };
   },
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])('auth', ['authError'])),
   methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])('auth', ['login']), {
     onSubmit: function onSubmit(event) {
       event.preventDefault();
@@ -39284,6 +39288,7 @@ var render = function() {
                         }
                       ],
                       staticClass: "form-control mt-0",
+                      class: { "is-invalid": _vm.authError },
                       attrs: {
                         id: "email",
                         type: "email",
@@ -39301,7 +39306,18 @@ var render = function() {
                           _vm.email = $event.target.value
                         }
                       }
-                    })
+                    }),
+                    _vm._v(" "),
+                    _vm.authError
+                      ? _c(
+                          "span",
+                          {
+                            staticClass: "invalid-feedback",
+                            attrs: { role: "alert" }
+                          },
+                          [_c("strong", [_vm._v(_vm._s(_vm.authError))])]
+                        )
+                      : _vm._e()
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "form-group" }, [
@@ -56588,7 +56604,7 @@ router.beforeEach(function (to, from, next) {
     return next({
       name: 'login',
       query: {
-        redirect: to.name
+        redirect: to.fullPath
       }
     });
   }
@@ -56770,8 +56786,9 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _services_api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../services/api */ "./resources/js/services/api.js");
-/* harmony import */ var _services_storage__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../services/storage */ "./resources/js/services/storage.js");
+/* harmony import */ var _routes__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../routes */ "./resources/js/routes/index.js");
+/* harmony import */ var _services_api__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../services/api */ "./resources/js/services/api.js");
+/* harmony import */ var _services_storage__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../services/storage */ "./resources/js/services/storage.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -56780,10 +56797,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 
+
 var state = {
   status: '',
-  user: _services_storage__WEBPACK_IMPORTED_MODULE_2__["default"].getUser() || '',
-  token: _services_storage__WEBPACK_IMPORTED_MODULE_2__["default"].getToken() || ''
+  user: _services_storage__WEBPACK_IMPORTED_MODULE_3__["default"].getUser() || '',
+  token: _services_storage__WEBPACK_IMPORTED_MODULE_3__["default"].getToken() || '',
+  error: ''
 };
 var getters = {
   authenticated: function authenticated(state) {
@@ -56794,6 +56813,9 @@ var getters = {
   },
   authUser: function authUser(state) {
     return state.user;
+  },
+  authError: function authError(state) {
+    return state.error;
   }
 };
 var actions = {
@@ -56810,7 +56832,7 @@ var actions = {
               email = _ref2.email, password = _ref2.password;
               commit('auth_request');
               _context.next = 5;
-              return axios({
+              return _services_api__WEBPACK_IMPORTED_MODULE_2__["default"].customRequest({
                 url: 'api/v1/login',
                 data: {
                   email: email,
@@ -56818,12 +56840,13 @@ var actions = {
                 },
                 method: 'POST'
               }).then(function (response) {
-                _services_storage__WEBPACK_IMPORTED_MODULE_2__["default"].saveUser(response.data.user);
-                _services_storage__WEBPACK_IMPORTED_MODULE_2__["default"].saveToken(response.data.token);
+                _services_storage__WEBPACK_IMPORTED_MODULE_3__["default"].saveUser(response.data.user);
+                _services_storage__WEBPACK_IMPORTED_MODULE_3__["default"].saveToken(response.data.token);
+                _services_api__WEBPACK_IMPORTED_MODULE_2__["default"].setHeader();
                 commit('auth_success', response.data);
+                _routes__WEBPACK_IMPORTED_MODULE_1__["default"].push(_routes__WEBPACK_IMPORTED_MODULE_1__["default"].history.current.query.redirect || '/');
               })["catch"](function (error) {
-                commit('auth_error', error);
-                console.log(error);
+                commit('auth_error', error.response.data);
               });
 
             case 5:
@@ -56850,8 +56873,9 @@ var mutations = {
     state.token = data.token;
     state.user = data.user;
   },
-  auth_error: function auth_error(state, error) {
+  auth_error: function auth_error(state, data) {
     state.status = 'Failed';
+    state.error = data.error;
   }
 };
 /* harmony default export */ __webpack_exports__["default"] = ({
