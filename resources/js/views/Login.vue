@@ -4,18 +4,11 @@
             <div class="column"></div>
             <div class="column">
                 <h1>Login</h1>
-                <form @submit="onSubmit">
+                <form @submit="onSubmit" autocomplete="on">
                     <fieldset>
-                        <label for="email">Email</label>
-                        <input id="email" type="email" name="email" placeholder="john@example.com" v-bind:class="{ 'is-invalid' : authError }" v-model="email" required autocomplete="email">
-                        <span class="invalid-feedback" role="alert" v-if="authError">{{ authError }}</span>
-
-                        <label for="password">Password</label>
-                        <input id="password" type="password" name="password" v-model="password" required autocomplete="current-password">
-
-                        <button type="submit" class="button-primary">
-                            Login
-                        </button>
+                        <formInput inputName="email" inputType="email" inputLabel="Email" :inputErr="authError"></formInput>
+                        <formInput inputName="password" inputType="password" inputLabel="Password"></formInput>
+                        <formButton inputType="submit" inputLabel="Login"></formButton>
                     </fieldset>
                 </form>
             </div>
@@ -26,8 +19,14 @@
 
 <script>
     import { mapGetters, mapActions } from "vuex";
+    import formInput from '../components/FormInput.vue';
+    import formButton from '../components/FormButton.vue';
 
     export default {
+        components: {
+            formInput,
+            formButton
+        },
         data() {
             return {
                 email: "",

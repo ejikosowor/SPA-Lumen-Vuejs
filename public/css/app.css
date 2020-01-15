@@ -674,7 +674,7 @@ select {
   border-radius: 0.4rem;
   box-shadow: none;
   box-sizing: inherit;
-  height: 3.8rem;
+  height: 3rem;
   padding: 0.6rem 1rem;
   width: 100%;
 }
@@ -727,6 +727,14 @@ input[type=radio] {
   display: inline-block;
   font-weight: normal;
   margin-left: 0.5rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group input {
+  margin-bottom: 0rem;
 }
 
 .container {
@@ -1084,5 +1092,14 @@ img {
 
 .float-right {
   float: right;
+}
+
+.is-invalid {
+  border: 0.1rem solid #dc3545 !important;
+}
+
+.invalid-feedback {
+  color: #dc3545;
+  font-size: 0.85em;
 }
 
