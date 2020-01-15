@@ -6,6 +6,7 @@ import StorageService from '../../services/storage';
 const state = {
     error: '',
     status: '',
+    success: '',
     user: StorageService.getUser() || '',
     token: StorageService.getToken() || ''
 };
@@ -20,7 +21,7 @@ const getters = {
 const actions = {
     async login({ commit }, {email, password}) {
 
-        commit('auth_request')
+        commit('auth_request');
 
         await UserService
                     .login(email, password)
@@ -32,6 +33,18 @@ const actions = {
                         commit('auth_error', error.response.data);
                     });
     },
+    async register({ commit }, {name, display_name, email, password}) {
+
+        commit('register');
+
+        await UserService
+                    .register(name, display_name, email, password)
+                    .then(response => {
+                        commit('register_success', response.data);
+                        router.push('/login');
+                    })
+                    .catch(error => commit('register_error', error.response.data));
+    },
     logout({ commit }) {
         UserService.logout();
         commit('auth_logout');
@@ -41,7 +54,7 @@ const actions = {
 
 const mutations = {
     auth_request: (state) => {
-        state.status = 'Attempting'
+        state.status = 'Attempting';
     },
     auth_success: (state, data) => {
         state.status = 'Authenticated';
@@ -58,6 +71,17 @@ const mutations = {
         state.token = '';
         state.user = '';
         state.error = '';
+    },
+    register: (state) => {
+        state.status = 'Registering';
+    },
+    register_success: (state, data) => {
+        state.status = 'Registered';
+        state.success = data.status;
+    },
+    register_error: (state, data) => {
+        state.status = 'Failed';
+        state.error = data;
     }
 }
 

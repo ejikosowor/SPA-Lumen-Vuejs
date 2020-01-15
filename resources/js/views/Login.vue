@@ -6,8 +6,8 @@
                 <h1>Login</h1>
                 <form @submit="onSubmit" autocomplete="on">
                     <fieldset>
-                        <formInput inputName="email" inputType="email" inputLabel="Email" :inputErr="authError"></formInput>
-                        <formInput inputName="password" inputType="password" inputLabel="Password"></formInput>
+                        <formInput inputName="email" inputType="email" inputLabel="Email" :inputErr="authError" v-model="email"></formInput>
+                        <formInput inputName="password" inputType="password" inputLabel="Password" v-model="password"></formInput>
                         <formButton inputType="submit" inputLabel="Login"></formButton>
                     </fieldset>
                 </form>

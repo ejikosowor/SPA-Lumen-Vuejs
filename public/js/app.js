@@ -1979,7 +1979,18 @@ __webpack_require__.r(__webpack_exports__);
     inputErr: String,
     inputName: String,
     inputType: String,
-    inputLabel: String
+    inputLabel: String,
+    value: String
+  },
+  computed: {
+    inputVal: {
+      get: function get() {
+        return this.value;
+      },
+      set: function set(val) {
+        this.$emit('input', val);
+      }
+    }
   }
 });
 
@@ -2270,6 +2281,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _components_FormInput_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/FormInput.vue */ "./resources/js/components/FormInput.vue");
 /* harmony import */ var _components_FormButton_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/FormButton.vue */ "./resources/js/components/FormButton.vue");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -2298,7 +2315,40 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     formInput: _components_FormInput_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
     formButton: _components_FormButton_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
-  }
+  },
+  data: function data() {
+    return {
+      name: "",
+      display_name: "",
+      email: "",
+      password: ""
+    };
+  },
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])('auth', ['authError']), {
+    errName: function errName() {
+      return this.authError.name ? this.authError.name[0] : '';
+    },
+    errDisplayName: function errDisplayName() {
+      return this.authError.display_name ? this.authError.display_name[0] : '';
+    },
+    errEmail: function errEmail() {
+      return this.authError.email ? this.authError.email[0] : '';
+    },
+    errPassword: function errPassword() {
+      return this.authError.password ? this.authError.password[0] : '';
+    }
+  }),
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])('auth', ['register']), {
+    onSubmit: function onSubmit(event) {
+      event.preventDefault();
+      this.register({
+        name: this.name,
+        display_name: this.display_name,
+        email: this.email,
+        password: this.password
+      });
+    }
+  })
 });
 
 /***/ }),
@@ -21317,15 +21367,100 @@ var render = function() {
       _vm._v(_vm._s(_vm.inputLabel))
     ]),
     _vm._v(" "),
-    _c("input", {
-      class: { "is-invalid": _vm.inputErr },
-      attrs: {
-        id: _vm.inputName,
-        type: _vm.inputType,
-        name: _vm.inputName,
-        required: ""
-      }
-    }),
+    _vm.inputType === "checkbox"
+      ? _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.inputVal,
+              expression: "inputVal"
+            }
+          ],
+          class: { "is-invalid": _vm.inputErr },
+          attrs: {
+            id: _vm.inputName,
+            name: _vm.inputName,
+            required: "",
+            type: "checkbox"
+          },
+          domProps: {
+            checked: Array.isArray(_vm.inputVal)
+              ? _vm._i(_vm.inputVal, null) > -1
+              : _vm.inputVal
+          },
+          on: {
+            change: function($event) {
+              var $$a = _vm.inputVal,
+                $$el = $event.target,
+                $$c = $$el.checked ? true : false
+              if (Array.isArray($$a)) {
+                var $$v = null,
+                  $$i = _vm._i($$a, $$v)
+                if ($$el.checked) {
+                  $$i < 0 && (_vm.inputVal = $$a.concat([$$v]))
+                } else {
+                  $$i > -1 &&
+                    (_vm.inputVal = $$a
+                      .slice(0, $$i)
+                      .concat($$a.slice($$i + 1)))
+                }
+              } else {
+                _vm.inputVal = $$c
+              }
+            }
+          }
+        })
+      : _vm.inputType === "radio"
+      ? _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.inputVal,
+              expression: "inputVal"
+            }
+          ],
+          class: { "is-invalid": _vm.inputErr },
+          attrs: {
+            id: _vm.inputName,
+            name: _vm.inputName,
+            required: "",
+            type: "radio"
+          },
+          domProps: { checked: _vm._q(_vm.inputVal, null) },
+          on: {
+            change: function($event) {
+              _vm.inputVal = null
+            }
+          }
+        })
+      : _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.inputVal,
+              expression: "inputVal"
+            }
+          ],
+          class: { "is-invalid": _vm.inputErr },
+          attrs: {
+            id: _vm.inputName,
+            name: _vm.inputName,
+            required: "",
+            type: _vm.inputType
+          },
+          domProps: { value: _vm.inputVal },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.inputVal = $event.target.value
+            }
+          }
+        }),
     _vm._v(" "),
     _vm.inputErr
       ? _c(
@@ -21653,6 +21788,13 @@ var render = function() {
                     inputType: "email",
                     inputLabel: "Email",
                     inputErr: _vm.authError
+                  },
+                  model: {
+                    value: _vm.email,
+                    callback: function($$v) {
+                      _vm.email = $$v
+                    },
+                    expression: "email"
                   }
                 }),
                 _vm._v(" "),
@@ -21661,6 +21803,13 @@ var render = function() {
                     inputName: "password",
                     inputType: "password",
                     inputLabel: "Password"
+                  },
+                  model: {
+                    value: _vm.password,
+                    callback: function($$v) {
+                      _vm.password = $$v
+                    },
+                    expression: "password"
                   }
                 }),
                 _vm._v(" "),
@@ -21774,49 +21923,85 @@ var render = function() {
       _c("div", { staticClass: "column" }, [
         _c("h1", [_vm._v("Register")]),
         _vm._v(" "),
-        _c("form", { attrs: { autocomplete: "on" } }, [
-          _c(
-            "fieldset",
-            [
-              _c("formInput", {
-                attrs: {
-                  inputName: "name",
-                  inputType: "text",
-                  inputLabel: "Name"
-                }
-              }),
-              _vm._v(" "),
-              _c("formInput", {
-                attrs: {
-                  inputName: "display_name",
-                  inputType: "text",
-                  inputLabel: "Display Name"
-                }
-              }),
-              _vm._v(" "),
-              _c("formInput", {
-                attrs: {
-                  inputName: "email",
-                  inputType: "email",
-                  inputLabel: "Email"
-                }
-              }),
-              _vm._v(" "),
-              _c("formInput", {
-                attrs: {
-                  inputName: "password",
-                  inputType: "password",
-                  inputLabel: "Password"
-                }
-              }),
-              _vm._v(" "),
-              _c("formButton", {
-                attrs: { inputType: "submit", inputLabel: "Register" }
-              })
-            ],
-            1
-          )
-        ])
+        _c(
+          "form",
+          { attrs: { autocomplete: "off" }, on: { submit: _vm.onSubmit } },
+          [
+            _c(
+              "fieldset",
+              [
+                _c("formInput", {
+                  attrs: {
+                    inputName: "name",
+                    inputType: "text",
+                    inputLabel: "Name",
+                    inputErr: _vm.errName
+                  },
+                  model: {
+                    value: _vm.name,
+                    callback: function($$v) {
+                      _vm.name = $$v
+                    },
+                    expression: "name"
+                  }
+                }),
+                _vm._v(" "),
+                _c("formInput", {
+                  attrs: {
+                    inputName: "display_name",
+                    inputType: "text",
+                    inputLabel: "Display Name",
+                    inputErr: _vm.errDisplayName
+                  },
+                  model: {
+                    value: _vm.display_name,
+                    callback: function($$v) {
+                      _vm.display_name = $$v
+                    },
+                    expression: "display_name"
+                  }
+                }),
+                _vm._v(" "),
+                _c("formInput", {
+                  attrs: {
+                    inputName: "email",
+                    inputType: "email",
+                    inputLabel: "Email",
+                    inputErr: _vm.errEmail
+                  },
+                  model: {
+                    value: _vm.email,
+                    callback: function($$v) {
+                      _vm.email = $$v
+                    },
+                    expression: "email"
+                  }
+                }),
+                _vm._v(" "),
+                _c("formInput", {
+                  attrs: {
+                    inputName: "password",
+                    inputType: "password",
+                    inputLabel: "Password",
+                    inputErr: _vm.errPassword
+                  },
+                  model: {
+                    value: _vm.password,
+                    callback: function($$v) {
+                      _vm.password = $$v
+                    },
+                    expression: "password"
+                  }
+                }),
+                _vm._v(" "),
+                _c("formButton", {
+                  attrs: { inputType: "submit", inputLabel: "Register" }
+                })
+              ],
+              1
+            )
+          ]
+        )
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "column" })
@@ -38803,7 +38988,7 @@ var UserService = {
                   _api__WEBPACK_IMPORTED_MODULE_1__["default"].setHeader();
                   resolve(response);
                 })["catch"](function (error) {
-                  reject(error);
+                  return reject(error);
                 });
               });
 
@@ -38824,6 +39009,52 @@ var UserService = {
     }
 
     return login;
+  }(),
+  register: function () {
+    var _register = _asyncToGenerator(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(name, display_name, email, password) {
+      var requestData, response;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              requestData = {
+                method: 'POST',
+                url: 'api/v1/register',
+                data: {
+                  name: name,
+                  display_name: display_name,
+                  email: email,
+                  password: password
+                }
+              };
+              _context2.next = 3;
+              return new Promise(function (resolve, reject) {
+                _api__WEBPACK_IMPORTED_MODULE_1__["default"].customRequest(requestData).then(function (response) {
+                  return resolve(response);
+                })["catch"](function (error) {
+                  return reject(error);
+                });
+              });
+
+            case 3:
+              response = _context2.sent;
+              return _context2.abrupt("return", response);
+
+            case 5:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2);
+    }));
+
+    function register(_x3, _x4, _x5, _x6) {
+      return _register.apply(this, arguments);
+    }
+
+    return register;
   }(),
   logout: function logout() {
     _storage__WEBPACK_IMPORTED_MODULE_2__["default"].removeUser();
@@ -38890,6 +39121,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 var state = {
   error: '',
   status: '',
+  success: '',
   user: _services_storage__WEBPACK_IMPORTED_MODULE_3__["default"].getUser() || '',
   token: _services_storage__WEBPACK_IMPORTED_MODULE_3__["default"].getToken() || ''
 };
@@ -38942,8 +39174,42 @@ var actions = {
 
     return login;
   }(),
-  logout: function logout(_ref3) {
-    var commit = _ref3.commit;
+  register: function () {
+    var _register = _asyncToGenerator(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(_ref3, _ref4) {
+      var commit, name, display_name, email, password;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              commit = _ref3.commit;
+              name = _ref4.name, display_name = _ref4.display_name, email = _ref4.email, password = _ref4.password;
+              commit('register');
+              _context2.next = 5;
+              return _services_user__WEBPACK_IMPORTED_MODULE_2__["default"].register(name, display_name, email, password).then(function (response) {
+                commit('register_success', response.data);
+                _routes__WEBPACK_IMPORTED_MODULE_1__["default"].push('/login');
+              })["catch"](function (error) {
+                return commit('register_error', error.response.data);
+              });
+
+            case 5:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2);
+    }));
+
+    function register(_x3, _x4) {
+      return _register.apply(this, arguments);
+    }
+
+    return register;
+  }(),
+  logout: function logout(_ref5) {
+    var commit = _ref5.commit;
     _services_user__WEBPACK_IMPORTED_MODULE_2__["default"].logout();
     commit('auth_logout');
     _routes__WEBPACK_IMPORTED_MODULE_1__["default"].push('/login');
@@ -38968,6 +39234,17 @@ var mutations = {
     state.token = '';
     state.user = '';
     state.error = '';
+  },
+  register: function register(state) {
+    state.status = 'Registering';
+  },
+  register_success: function register_success(state, data) {
+    state.status = 'Registered';
+    state.success = data.status;
+  },
+  register_error: function register_error(state, data) {
+    state.status = 'Failed';
+    state.error = data;
   }
 };
 /* harmony default export */ __webpack_exports__["default"] = ({

@@ -10,7 +10,7 @@ const UserService = {
             data: {
                 email: email,
                 password: password
-            }, 
+            } 
         };
 
         const response = await new Promise((resolve, reject) => {
@@ -22,10 +22,28 @@ const UserService = {
                         ApiService.setHeader();
                         resolve(response);
                     })
-                    .catch(error => {
-                        reject(error);
-                    });
+                    .catch(error => reject(error));
         });
+
+        return response;
+    },
+    async register(name, display_name, email, password) {
+        const requestData = {
+            method: 'POST',
+            url: 'api/v1/register',
+            data: {
+                name: name,
+                display_name: display_name,
+                email: email,
+                password: password
+            }
+        };
+
+        const response = await new Promise((resolve, reject) => {
+            ApiService.customRequest(requestData)
+                    .then(response => resolve(response))
+                    .catch(error => reject(error));
+        })
 
         return response;
     },

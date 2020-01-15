@@ -4,12 +4,12 @@
             <div class="column"></div>
             <div class="column">
                 <h1>Register</h1>
-                <form autocomplete="on">
+                <form @submit="onSubmit" autocomplete="off">
                     <fieldset>
-                        <formInput inputName="name" inputType="text" inputLabel="Name"></formInput>
-                        <formInput inputName="display_name" inputType="text" inputLabel="Display Name"></formInput>
-                        <formInput inputName="email" inputType="email" inputLabel="Email"></formInput>
-                        <formInput inputName="password" inputType="password" inputLabel="Password"></formInput>
+                        <formInput inputName="name" inputType="text" inputLabel="Name" :inputErr="errName" v-model="name"></formInput>
+                        <formInput inputName="display_name" inputType="text" inputLabel="Display Name" :inputErr="errDisplayName" v-model="display_name"></formInput>
+                        <formInput inputName="email" inputType="email" inputLabel="Email" :inputErr="errEmail" v-model="email"></formInput>
+                        <formInput inputName="password" inputType="password" inputLabel="Password" :inputErr="errPassword" v-model="password"></formInput>
                         <formButton inputType="submit" inputLabel="Register"></formButton>
                     </fieldset>
                 </form>
@@ -28,6 +28,38 @@
         components: {
             formInput,
             formButton
+        },
+        data() {
+            return {
+                name: "",
+                display_name: "",
+                email: "",
+                password: ""
+            };
+        },
+        computed: {
+            ...mapGetters('auth', [
+                'authError'
+            ]),
+            errName() {
+                return this.authError.name ? this.authError.name[0] : '';
+            },
+            errDisplayName() {
+                return this.authError.display_name ? this.authError.display_name[0] : '';
+            },
+            errEmail() {
+                return this.authError.email ? this.authError.email[0] : '';
+            },
+            errPassword() {
+                return this.authError.password ? this.authError.password[0] : '';
+            }
+        },
+        methods: {
+            ...mapActions('auth', ['register']),
+            onSubmit(event) {
+                event.preventDefault();
+                this.register({ name: this.name, display_name: this.display_name, email: this.email, password: this.password})
+            }
         }
     }
 </script>
