@@ -6,7 +6,7 @@ import StorageService from '../services/storage';
 //Individual routing files
 import { authRoutes } from './auth';
 import { pageRoutes } from './pages';
-import { NotFound } from './NotFound';
+import { NotFound } from './404';
 
 // Plugin Setup
 Vue.use(VueRouter);

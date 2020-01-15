@@ -6,7 +6,7 @@
                 <h1>Login</h1>
                 <form @submit="onSubmit" autocomplete="on">
                     <fieldset>
-                        <formInput inputName="email" inputType="email" inputLabel="Email" :inputErr="authError" v-model="email"></formInput>
+                        <formInput inputName="email" inputType="email" inputLabel="Email" :inputErr="error" v-model="email"></formInput>
                         <formInput inputName="password" inputType="password" inputLabel="Password" v-model="password"></formInput>
                         <formButton inputType="submit" inputLabel="Login"></formButton>
                     </fieldset>
@@ -34,12 +34,12 @@
             }
         },
         computed: {
-            ...mapGetters('auth', [
-                'authError'
+            ...mapGetters('authentication', [
+                'error'
             ])
         },
         methods: {
-            ...mapActions('auth', ['login']),
+            ...mapActions('authentication', ['login']),
             onSubmit(event) {
                 event.preventDefault();
                 this.login({ email: this.email, password: this.password });

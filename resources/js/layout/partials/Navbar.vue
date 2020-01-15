@@ -35,7 +35,7 @@
 
     export default {
         methods: {
-            ...mapActions('auth', ['logout'])
+            ...mapActions('authentication', ['logout'])
         }
     }
 </script>

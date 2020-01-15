@@ -16,7 +16,6 @@ const UserService = {
         const response = await new Promise((resolve, reject) => {
             ApiService.customRequest(requestData)
                     .then(response => {
-                        StorageService.saveUser(response.data.user);
                         StorageService.saveToken(response.data.token);
 
                         ApiService.setHeader();
@@ -48,7 +47,6 @@ const UserService = {
         return response;
     },
     logout() {
-        StorageService.removeUser();
         StorageService.removeToken();
 
         ApiService.removeHeader();

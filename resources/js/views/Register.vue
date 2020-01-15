@@ -38,24 +38,24 @@
             };
         },
         computed: {
-            ...mapGetters('auth', [
-                'authError'
+            ...mapGetters('registration', [
+                'error'
             ]),
             errName() {
-                return this.authError.name ? this.authError.name[0] : '';
+                return this.error.name ? this.error.name[0] : '';
             },
             errDisplayName() {
-                return this.authError.display_name ? this.authError.display_name[0] : '';
+                return this.error.display_name ? this.error.display_name[0] : '';
             },
             errEmail() {
-                return this.authError.email ? this.authError.email[0] : '';
+                return this.error.email ? this.error.email[0] : '';
             },
             errPassword() {
-                return this.authError.password ? this.authError.password[0] : '';
+                return this.error.password ? this.error.password[0] : '';
             }
         },
         methods: {
-            ...mapActions('auth', ['register']),
+            ...mapActions('registration', ['register']),
             onSubmit(event) {
                 event.preventDefault();
                 this.register({ name: this.name, display_name: this.display_name, email: this.email, password: this.password})

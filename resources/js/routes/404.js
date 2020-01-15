@@ -1,4 +1,4 @@
-import NotFoundView from '../views/NotFound.vue';
+import NotFoundView from '../views/404.vue';
 
 const NotFound = {
     path: '*',
