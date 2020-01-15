@@ -1,9 +1,7 @@
 <template>
-    <div class="wrapper">
-        <main class="centered">
-            <pagecontent></pagecontent>
-        </main>
-    </div>
+    <main class="wrapper">
+        <router-view></router-view>
+    </main>
 </template>
 
 <script>
@@ -15,19 +13,3 @@
         }
     }
 </script>
-
-<style lang="scss" scoped>
-    .centered {
-        display: -webkit-box;
-        display: flex;
-        -webkit-box-align: center;
-                align-items: center;
-        min-height: calc(100% - 1rem);
-    }
-
-    .centered::before {
-        display: block;
-        height: calc(100vh - 1rem);
-        content: "";
-    }
-</style>

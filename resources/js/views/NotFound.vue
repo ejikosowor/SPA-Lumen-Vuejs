@@ -24,7 +24,7 @@
     }
 </script>
 
-<style>
+<style scoped>
     html {
         line-height: 1.15;
             -ms-text-size-adjust: 100%;
